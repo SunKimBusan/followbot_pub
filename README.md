@@ -1,5 +1,5 @@
 # followbot_pub
-followbot publication version
+this is codes for following person by using face, clothes and legs identification.
 
 # environment
 <img src="https://user-images.githubusercontent.com/31533921/119104760-98002700-ba57-11eb-9634-442e16dad0a9.png" width="500">
