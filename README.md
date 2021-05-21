@@ -2,7 +2,7 @@
 followbot publication version
 
 # environment
-![robot_1](https://user-images.githubusercontent.com/31533921/119104760-98002700-ba57-11eb-9634-442e16dad0a9.png)
+![robot_1](https://user-images.githubusercontent.com/31533921/119104760-98002700-ba57-11eb-9634-442e16dad0a9.png){: width="50%" height="50%"}
 
 1. Intel realsense d435 camera
 2. rplidar s1
