@@ -58,7 +58,7 @@ class clothes_pattern:
 		self.last_person_pose = None
 		self.valid_vel = 3 # m/s
 		self.valid_time_from_last_person = 2 # seconds
-		self.valid_size_of_person = 15 # image pixels distance
+		self.valid_size_of_person = 30 # image pixels distance
 		self.init_unauth_case_num = 5
 		self.unauth_case_cnt = self.init_unauth_case_num
 
