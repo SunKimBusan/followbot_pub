@@ -58,7 +58,9 @@ class clothes_pattern:
 		self.last_person_pose = None
 		self.valid_vel = 3 # m/s
 		self.valid_time_from_last_person = 2 # seconds
-		self.valid_size_of_person = 30 # image pixels distance
+		self.valid_size_of_person = 15 # image pixels distance
+		self.init_unauth_case_num = 5
+		self.unauth_case_cnt = self.init_unauth_case_num
 
 		self.img_processing = False
 		self.personPose_pub = rospy.Publisher('person_pose', PoseStamped, queue_size=10)
@@ -291,6 +293,8 @@ class clothes_pattern:
 						#print('pose_transformed : ', send_pose_transformed)
 
 						self.personPose_pub.publish(send_pose_transformed)
+						self.last_person_pose = [send_pose_transformed, time_]
+						self.unauth_case_cnt = self.init_unauth_case_num
 						break
 
 			if found_target:
@@ -299,12 +303,12 @@ class clothes_pattern:
 		# when we can't find target by clothes histogram, then we try to check all person's position.
 		# if specific position is near from last target position, then, we can use this as new target position.
 
-		if (not found_target) and (self.last_person_pose is not None):
+		if (not found_target) and (self.last_person_pose is not None) and (self.unauth_case_cnt != 0):
 
 			last_time = self.last_person_pose[1]
 			time_interval = time_ - last_time
 
-			if time_interval < self.valid_time_from_last_person:
+			if time_interval.to_sec() < self.valid_time_from_last_person:
 
 				if len(pos_list) != 0:
 
@@ -323,7 +327,7 @@ class clothes_pattern:
 						inc_y = pos_y - last_y
 
 						euclidean_distance = sqrt(pow((inc_x), 2) + pow((inc_y), 2))
-						velocity = euclidean_distance/time_interval
+						velocity = euclidean_distance/time_interval.to_sec()
 
 						if min_vel is None:
 							min_vel = velocity
@@ -335,6 +339,7 @@ class clothes_pattern:
 					if min_vel < self.valid_vel:
 						self.personPose_pub.publish(pos_list[min_idx])
 						self.last_person_pose = [pos_list[min_idx], time_]
+						self.unauth_case_cnt -= 1
 
 		self.frame = frame
 
