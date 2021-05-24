@@ -59,7 +59,12 @@ class clothes_pattern:
 		self.valid_vel = 3 # m/s
 		self.valid_time_from_last_person = 2 # seconds
 		self.valid_size_of_person = 30 # image pixels distance
-		self.init_unauth_case_num = 5
+
+		# change init_unauth_case_num if you want to track person without clothes identification.
+		# It uses the recognized person nearest the last measured coordinate.
+		# It works well when a person is alone
+		# but if there are other people around you, there is a high probability that the robot will chase after others.
+		self.init_unauth_case_num = 0
 		self.unauth_case_cnt = self.init_unauth_case_num
 
 		self.img_processing = False
