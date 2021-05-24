@@ -28,11 +28,6 @@ class depth_location:
 		self.known_face_names = []
 		self.frame = None
 
-		# Initialize some variables
-		self.face_locations = []
-		self.face_encodings = []
-		self.face_names = []
-
 		# Load sample pictures and learn how to recognize it.
 		dirname = pkg_path + '/src/knowns'
 		files = os.listdir(dirname)
@@ -107,27 +102,29 @@ class depth_location:
 		frame = rgb_img
 
 		# Find all the faces and face encodings in the current frame of video
-		self.face_locations = face_recognition.face_locations(frame)
-		self.face_encodings = face_recognition.face_encodings(frame, self.face_locations)
+		face_locations = face_recognition.face_locations(frame)
+		face_encodings = face_recognition.face_encodings(frame, face_locations)
 
-		self.face_names = []
-		for face_encoding in self.face_encodings:
+		face_names = []
+		for face_encoding in face_encodings:
 			# See if the face is a match for the known face(s)
 			distances = face_recognition.face_distance(self.known_face_encodings, face_encoding)
 			min_value = min(distances)
+			print("min_value ", min_value)
 
 			# tolerance: How much distance between faces to consider it a match. Lower is more strict.
 			# 0.6 is typical best performance.
-			name = "Unknown"
+			name = "Unknown_1"
 
-			if min_value < 0.6:
+			if min_value < 0.35:
 				print(" face detected")
 				index = np.argmin(distances)
 				name = self.known_face_names[index]
-				self.face_names.append(name)
+
+			face_names.append(name.split('_')[0])
 
 		# Display the results
-		for (top, right, bottom, left), name in zip(self.face_locations, self.face_names):
+		for (top, right, bottom, left), name in zip(face_locations, face_names):
 
 			col = int(round((left + right)/2))
 			row = int(round((bottom + top)/2))
@@ -140,7 +137,7 @@ class depth_location:
 						if face_depth_arr[i][j] < min_depth:
 							min_depth = face_depth_arr[i][j]
 
-			if name.split('_')[0] == person_name :
+			if name == person_name :
 
 				# personPose : [-y, x, z] by camera_link frame unit : mm
 				# data_to_send.data = rs2.rs2_deproject_pixel_to_point(self.intrinsics, [col, row], min_depth) # [col, row]
