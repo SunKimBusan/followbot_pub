@@ -60,7 +60,9 @@ class Controller():
         self.last_legs_inform = []
         self.legs_moving_check_vel = 0.5 # m/s
         self.legs_valid_vel_limit = 2 # m/s
-        self.legs_sub = rospy.Subscriber('people_tracked_throttle', PersonArray, self.callback_legs)
+        #Leg part works well when a person is alone.
+        #but if there are other people around you, there is a high probability that the robot will chase after other.
+        #self.legs_sub = rospy.Subscriber('people_tracked_throttle', PersonArray, self.callback_legs)
 
 
     def callback_legs(self,data):
