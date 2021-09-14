@@ -1,0 +1,16 @@
+<launch>
+
+  <!--include file="$(find followbot_mechanum)/launch/leg_tracker.launch"/-->
+
+  <!-- Arguments -->
+  <arg name="open_rviz" default="true"/>
+  <group if="$(arg open_rviz)">
+    <node pkg="rviz" type="rviz" name="rviz" required="true" args="-d $(find followbot_mechanum)/rviz/followbot_mechanum_2.rviz"/>
+  </group>
+
+  <include file="$(find openpose_ros)/launch/openpose_ros.launch"/>
+
+  <node name="datarecv_compressed" pkg="followbot_mechanum" type="datarecv_compressed.py" />
+  <node name="throttle_3" pkg="topic_tools" type="throttle" args="messages /people_tracked 4" />
+
+</launch>
