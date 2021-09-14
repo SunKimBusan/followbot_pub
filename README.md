@@ -12,5 +12,4 @@ this is codes for following person by using face, clothes and legs identificatio
 # requirement
 1. leg_tracker (https://github.com/angusleigh/leg_tracker)
 2. openpose_ros (https://github.com/firephinx/openpose_ros)
-3. teb_local_planner (http://wiki.ros.org/teb_local_planner)
-4. face_recognition (https://github.com/ageitgey/face_recognition)
+3. face_recognition (https://github.com/ageitgey/face_recognition)
